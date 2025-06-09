@@ -6,8 +6,18 @@ import {
   type Notification
 } from './gameConstants';
 
-// Initial game state factory
+// Initial game state factory. Attempts to load from localStorage if available
 const createInitialGameState = (): GameState => {
+  if (typeof window !== 'undefined') {
+    const saved = localStorage.getItem('medievalGameState');
+    if (saved) {
+      try {
+        return JSON.parse(saved) as GameState;
+      } catch {
+        // fall through to create default state
+      }
+    }
+  }
   // Initialize shop tiles
   const tiles: { type: 'floor' | 'wall' | 'door'; color: string }[][] = [];
   for (let y = 0; y < 8; y++) {
@@ -39,7 +49,9 @@ const createInitialGameState = (): GameState => {
     { id: 2, type: 'shelf' as const, x: 1, y: 3, items: [] },
     { id: 3, type: 'counter' as const, x: 4, y: 5, items: [] },
     { id: 4, type: 'display' as const, x: 7, y: 1, items: [] },
-    { id: 5, type: 'display' as const, x: 7, y: 3, items: [] }
+    { id: 5, type: 'display' as const, x: 7, y: 3, items: [] },
+    { id: 6, type: 'weaponRack' as const, x: 2, y: 5, items: [] },
+    { id: 7, type: 'potionStand' as const, x: 5, y: 2, items: [] }
   ];
 
   return {
@@ -56,7 +68,11 @@ const createInitialGameState = (): GameState => {
       { id: 2, type: 'sword', quantity: 5, averageCost: 35 },
       { id: 3, type: 'potion', quantity: 8, averageCost: 18 },
       { id: 4, type: 'hammer', quantity: 6, averageCost: 22 },
-      { id: 5, type: 'apple', quantity: 15, averageCost: 2 }
+      { id: 5, type: 'apple', quantity: 15, averageCost: 2 },
+      { id: 6, type: 'helmet', quantity: 2, averageCost: 30 },
+      { id: 7, type: 'armor', quantity: 1, averageCost: 60 },
+      { id: 8, type: 'ring', quantity: 1, averageCost: 80 },
+      { id: 9, type: 'scroll', quantity: 3, averageCost: 40 }
     ],
     gold: 500,
     market: {
@@ -65,14 +81,22 @@ const createInitialGameState = (): GameState => {
         sword: 1.0,
         potion: 1.0,
         hammer: 1.0,
-        apple: 1.0
+        apple: 1.0,
+        helmet: 1.0,
+        armor: 1.0,
+        ring: 1.0,
+        scroll: 1.0
       },
       supply: {
         bread: 'high',
         sword: 'medium',
         potion: 'medium',
         hammer: 'medium',
-        apple: 'high'
+        apple: 'high',
+        helmet: 'low',
+        armor: 'low',
+        ring: 'low',
+        scroll: 'medium'
       },
       priceHistory: {}
     },
@@ -83,7 +107,11 @@ const createInitialGameState = (): GameState => {
         { type: 'sword', quantity: 10, price: 35 },
         { type: 'potion', quantity: 15, price: 18 },
         { type: 'hammer', quantity: 12, price: 22 },
-        { type: 'apple', quantity: 30, price: 2 }
+        { type: 'apple', quantity: 30, price: 2 },
+        { type: 'helmet', quantity: 5, price: 32 },
+        { type: 'armor', quantity: 3, price: 70 },
+        { type: 'ring', quantity: 2, price: 90 },
+        { type: 'scroll', quantity: 10, price: 45 }
       ]
     },
     customers: [],
@@ -108,6 +136,13 @@ const createInitialGameState = (): GameState => {
 
 export const useGameState = () => {
   const [gameState, setGameState] = useState<GameState>(createInitialGameState);
+
+  // Persist game state to localStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('medievalGameState', JSON.stringify(gameState));
+    }
+  }, [gameState]);
 
   // Show notification helper
   const showNotification = useCallback((message: string, type: 'info' | 'success' | 'error' = 'info') => {

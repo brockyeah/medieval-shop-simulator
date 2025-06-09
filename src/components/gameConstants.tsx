@@ -11,14 +11,20 @@ export const ITEM_TYPES = {
   sword: { name: 'Iron Sword', color: '#C0C0C0', shape: 'rect', size: 20, basePrice: 50, category: 'weapon' },
   potion: { name: 'Health Potion', color: '#FF1493', shape: 'triangle', size: 12, basePrice: 25, category: 'consumable' },
   hammer: { name: 'Hammer', color: '#8B4513', shape: 'rect', size: 18, basePrice: 30, category: 'tool' },
-  apple: { name: 'Apple', color: '#FF0000', shape: 'circle', size: 10, basePrice: 3, category: 'food' }
+  apple: { name: 'Apple', color: '#FF0000', shape: 'circle', size: 10, basePrice: 3, category: 'food' },
+  helmet: { name: 'Helmet', color: '#808080', shape: 'rect', size: 18, basePrice: 40, category: 'armor' },
+  armor: { name: 'Chain Armor', color: '#A9A9A9', shape: 'rect', size: 22, basePrice: 80, category: 'armor' },
+  ring: { name: 'Magic Ring', color: '#FFD700', shape: 'circle', size: 8, basePrice: 100, category: 'artifact' },
+  scroll: { name: 'Spell Scroll', color: '#FFFFE0', shape: 'rect', size: 10, basePrice: 60, category: 'artifact' }
 } as const;
 
 // Furniture types
 export const FURNITURE_TYPES = {
   shelf: { name: 'Wooden Shelf', color: '#8B4513', slots: 3, height: 30 },
   counter: { name: 'Counter', color: '#654321', slots: 4, height: 20 },
-  display: { name: 'Display Case', color: '#4682B4', slots: 2, height: 25 }
+  display: { name: 'Display Case', color: '#4682B4', slots: 2, height: 25 },
+  weaponRack: { name: 'Weapon Rack', color: '#5D4037', slots: 4, height: 40 },
+  potionStand: { name: 'Potion Stand', color: '#9C27B0', slots: 3, height: 35 }
 } as const;
 
 // Customer archetypes

@@ -191,9 +191,17 @@ export const drawFurniture = (
   } else if (furniture.type === 'display') {
     ctx.fillStyle = furnitureType.color;
     ctx.fillRect(screenX - 20, screenY - furnitureType.height, 40, furnitureType.height + 10);
-    
+
     ctx.fillStyle = 'rgba(135, 206, 235, 0.3)';
     ctx.fillRect(screenX - 18, screenY - furnitureType.height + 2, 36, furnitureType.height - 4);
+  } else if (furniture.type === 'weaponRack') {
+    ctx.fillRect(screenX - 25, screenY - furnitureType.height, 50, furnitureType.height + 5);
+    ctx.fillStyle = '#3E2723';
+    ctx.fillRect(screenX - 25, screenY - furnitureType.height, 50, 3);
+  } else if (furniture.type === 'potionStand') {
+    ctx.fillRect(screenX - 15, screenY - furnitureType.height, 30, furnitureType.height);
+    ctx.fillStyle = '#4A148C';
+    ctx.fillRect(screenX - 15, screenY - furnitureType.height, 30, 3);
   }
   
   // Draw slot indicators in placement mode
